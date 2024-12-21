@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+
 # DHIS2_processing
-=======
+_____________
 <h1 style="color:blue">UTILISATION DE DHIS2_MOD</h1>
 
 Ce module vous permet d'effectuer plusieurs opérations depuis des fichiers de ***consultation*** et **hospitalisation** en format __json__ ou __csv__ avec la classe **dhis2**
