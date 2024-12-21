@@ -1,0 +1,7 @@
+# donnees
+data/consult*
+data/hospit*
+
+# outputs
+tracker*
+exported*
