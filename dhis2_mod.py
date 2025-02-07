@@ -106,7 +106,7 @@ def split_code (text):
 # Get the correspondant affections using the code
 def get_affect (code):
     try: 
-        return(corresp["Affection_B5a"][corresp.index == code][0])
+        return(corresp["Affection_B5a"][corresp.index == code].iloc[0])
     except IndexError as ie:
         return(code) 
 
@@ -280,7 +280,7 @@ class dhis2:
        'Hospitalisation HZ Klouekanme - Sexe M - 25 ans et Plus',
        'Hospitalisation HZ Klouekanme - Sexe F - 25 ans et Plus']
         affectionB5a = list(corresp['Affection_B5a'].unique())
-        affectionB5a.append("Dracunculose")
+        # affectionB5a.append("Dracunculose")
         affectionB5a = sorted(affectionB5a)
         ages, cols = [], []
         organisations = sorted(data["Unité d'organisation"].unique())
@@ -352,7 +352,7 @@ class dhis2:
                                         for tInd in tabInd:
                                             try:
                                                 if tInd in chgInd:
-                                                    table_affection[unit+" - Sexe "+sex+" - "+age][tInd] = countsAffections[unit][age][sex]
+                                                    table_affection.loc[tInd,unit+" - Sexe "+sex+" - "+age] = countsAffections[unit][age][sex][tInd]
                                             
                                             except KeyError:
                                                 continue
@@ -402,7 +402,7 @@ class dhis2:
                                 for tInd in tabInd:
                                     try:
                                         if tInd in chgInd:
-                                            table_affection["Sexe "+sex+" - "+age][tInd] = countsAffections[age][sex]
+                                            table_affection.loc[tInd,"Sexe "+sex+" - "+age] = countsAffections[age][sex][tInd]
                                     
                                     except KeyError:
                                         continue
@@ -467,7 +467,10 @@ class dhis2:
         # Print the missing affections
         if missing_aff != [] : print("Les affections manquantes sont: "+ str(missing_aff))
         
-        return(cons_hosp_data.loc[:,columnsOrder])
+        try:
+            return(cons_hosp_data.loc[:,columnsOrder])
+        except:
+            return(cons_hosp_data)
     
     
 cs_corr = pd.read_excel("./data/CS_correspondance.xlsx", index_col="Affections")
