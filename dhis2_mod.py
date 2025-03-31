@@ -56,7 +56,7 @@ def set_headers(dfs):
     # new_hosp["Type de sortie"] = new_hosp["Type de sortie"].replace("Décès","Décédé")
 
     new_header = ['Programme', 'Unité d\'organisation','Identification du Malade', 'Date Saisie', 'Service',
-        'Date de sortie ou de consultation', 'Diagnostic principal', 'Diagnostic secondaire 1',
+        "Date d'entrée ou de consultation", 'Diagnostic principal', 'Diagnostic secondaire 1',
         'Diagnostic secondaire 2', 'Type de sortie', 'Tranche_d\'Age_Tracker', "Sexe"]
     
     new_hosp.columns = new_header;    new_cons.columns = new_header
@@ -70,9 +70,9 @@ def database_from_excel(paths):
     list_df = set_headers(dfs)
     
     all_cas = pd.concat(list_df)
-    all_cas["Type de sortie"] = all_cas["Type de sortie"].replace("Décès","Décédé")
-    all_cas["Tranche_d\'Age_Tracker"] = all_cas["Tranche_d\'Age_Tracker"].replace(["0-11 mois",'15 ans et plus'], ["1-11 mois", "15-19 ans"])
-    all_cas["Tranche_d\'Age_Tracker"] = all_cas["Tranche_d\'Age_Tracker"].replace()
+    all_cas = all_cas.replace({"Tranche_d\'Age_Tracker": {"15 ans et plus" : "15-19 ans", "0-11 mois": "1-11 mois"},
+                               "Type de sortie": {"Décès":"Décédé"}})
+    
     
     all_cas.index = range(all_cas.shape[0])
     
@@ -85,8 +85,8 @@ def database_from_json(paths):
     list_df = set_headers(dfs)
     
     all_cas = pd.concat(list_df)
-    all_cas["Type de sortie"] = all_cas["Type de sortie"].replace("Décès","Décédé")
-    all_cas["Tranche_d\'Age_Tracker"] = all_cas["Tranche_d\'Age_Tracker"].replace("0-11 mois","1-11 mois")
+    all_cas = all_cas.replace({"Tranche_d\'Age_Tracker": {"15 ans et plus" : "15-19 ans", "0-11 mois": "1-11 mois"},
+                               "Type de sortie": {"Décès":"Décédé"}})
     
     all_cas.index = range(all_cas.shape[0])
     
